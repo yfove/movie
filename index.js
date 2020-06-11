@@ -44,7 +44,9 @@ createAutoComplete({
   },
 });
 
-const onMovieSelect = async (movie, summaryElement) => {
+let leftMovie;
+let rightMovie;
+const onMovieSelect = async (movie, summaryElement, side) => {
   const response = await axios.get("http://www.omdbapi.com/", {
     params: {
       apikey: "9d66d2c3",
@@ -52,8 +54,22 @@ const onMovieSelect = async (movie, summaryElement) => {
     },
   });
 
-  console.log(response.data);
+  // console.log(response.data);
   summaryElement.innerHTML = movieTemplate(response.data);
+
+  if (side === "left") {
+    leftMovie = response.data;
+  } else {
+    rightMovie = response.data;
+  }
+
+  if (leftMovie && rightMovie) {
+    runComparison();
+  }
+
+  const runComparison = () => {
+    console.log("Time for comparison");
+  };
 };
 
 const movieTemplate = (movieDetail) => {
